@@ -137,12 +137,13 @@
 <body> 
   <aside>
     <div>
-      <h1>Ville's Linux Server</h1>
+      <h1>Ville's Linux Server</h1>/section
       <p class="sub">Welcome to my Week 1 project!</p>
       <div role="tablist" aria-label="Questions">
         <button role="tab" id="t1" aria-controls="q1">Distribution and version</button>
         <button role="tab" id="t2" aria-controls="q2">What is Nginx?</button>
         <button role="tab" id="t3" aria-controls="q3">Commands I used</button>
+	<button role="tab" id="t4" aria-controls="q4">Counter</button>
       </div>
     </div>
     <div class="served"><i></i>served by nginx</div>
@@ -154,45 +155,91 @@
       <div class="distro"><strong>Ubuntu 26.04</strong><span>The operating system this server runs on.</span></div>
     </section>
 
-    <section class="panel" id="q2" role="tabpanel" aria-labelledby="t2">
-      <h2>2. What is Nginx, and what does it do on this server?</h2>
-      <p class="lead">A web server that serves your website to visitors. It also functions as a reverse proxy and load balancer, directing traffic to backend servers and improving both site performance and security.</p>
-      <div class="roles">
-        <div class="role"><b>Web server</b><small>Serves the website to visitors.</small></div>
-        <div class="role"><b>Reverse proxy</b><small>Directs traffic to backend servers.</small></div>
-        <div class="role"><b>Load balancer</b><small>Improves site performance and security.</small></div>
-      </div>
-    </section>
+    <section class="panel" id="q1" role="tabpanel" aria-labelledby="t1">
 
-    <section class="panel" id="q3" role="tabpanel" aria-labelledby="t3">
-      <h2>3. Which commands did I use?</h2>
-      <ol class="steps">
-        <li>
-          <div class="cmdline"><code>sudo apt update</code><button class="copy">Copy</button></div>
-          <p>Updates the package lists on a Linux system.</p>
-        </li>
-        <li>
-          <div class="cmdline"><code>sudo apt install nginx</code><button class="copy">Copy</button></div>
-          <p>Installs the Nginx web server on a Linux system.</p>
-        </li>
-        <li>
-          <div class="cmdline"><code>y</code><button class="copy">Copy</button></div>
-          <p>Accepts the installation prompt.</p>
-        </li>
-        <li>
-          <div class="cmdline"><code>sudo ufw allow 'Nginx Full'</code><button class="copy">Copy</button></div>
-          <p>Configures the firewall to allow both HTTP and HTTPS traffic, so users can access the website.</p>
-        </li>
-        <li>
-          <div class="cmdline"><code>sudo reboot</code><button class="copy">Copy</button></div>
-          <p>Restarts the Linux system immediately.</p>
-        </li>
-        <li>
-          <div class="cmdline"><code>sudo nano /var/www/html/index.html</code><button class="copy">Copy</button></div>
-          <p>Opens the index.html file in the Nano text editor with administrator (root) privileges.</p>
-        </li>
-      </ol>
-    </section>
+  <h2>1. Linux distribution and version</h2>
+
+  <div class="distro">
+    <strong>Ubuntu 26.04</strong>
+    <span>The operating system this server runs on.</span>
+  </div>
+
+  <h2>2. What is Nginx, and what does it do on this server?</h2>
+
+  <p class="lead">
+    A web server that serves your website to visitors. It also functions as a reverse proxy and load balancer, directing traffic to backend servers and improving both site performance and security.
+  </p>
+
+  <div class="roles">
+    <div class="role">
+      <b>Web server</b>
+      <small>Serves the website to visitors.</small>
+    </div>
+
+    <div class="role">
+      <b>Reverse proxy</b>
+      <small>Directs traffic to backend servers.</small>
+    </div>
+
+    <div class="role">
+      <b>Load balancer</b>
+      <small>Improves site performance and security.</small>
+    </div>
+  </div>
+
+  <h2>3. Which commands did I use?</h2>
+
+  <ol class="steps">
+    <li>
+      <div class="cmdline">
+        <code>sudo apt update</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Updates the package lists on a Linux system.</p>
+    </li>
+
+    <li>
+      <div class="cmdline">
+        <code>sudo apt install nginx</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Installs the Nginx web server on a Linux system.</p>
+    </li>
+
+    <li>
+      <div class="cmdline">
+        <code>y</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Accepts the installation prompt.</p>
+    </li>
+
+    <li>
+      <div class="cmdline">
+        <code>sudo ufw allow 'Nginx Full'</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Configures the firewall to allow HTTP and HTTPS traffic.</p>
+    </li>
+
+    <li>
+      <div class="cmdline">
+        <code>sudo reboot</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Restarts the Linux system immediately.</p>
+    </li>
+
+    <li>
+      <div class="cmdline">
+        <code>sudo nano /var/www/html/index.html</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Opens the index.html file in Nano.</p>
+    </li>
+  </ol>
+
+</section>
   </main>
 
   <script>
