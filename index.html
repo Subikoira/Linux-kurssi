@@ -137,25 +137,26 @@
 <body> 
   <aside>
     <div>
-      <h1>Ville's Linux Server</h1>/section
-      <p class="sub">Welcome to my Week 1 project!</p>
+      <h1>Ville's Linux Server</h1>
+      <p class="sub">Welcome to my Website!</p>
       <div role="tablist" aria-label="Questions">
-        <button role="tab" id="t1" aria-controls="q1">Distribution and version</button>
-        <button role="tab" id="t2" aria-controls="q2">What is Nginx?</button>
-        <button role="tab" id="t3" aria-controls="q3">Commands I used</button>
-	<button role="tab" id="t4" aria-controls="q4">Counter</button>
+        <button role="tab" id="t1" aria-controls="Home">Home</button>
+        <button role="tab" id="t2" aria-controls="Week 1">Week 1</button>
+        <button role="tab" id="t3" aria-controls="Week 2">Weel 2</button>
+	<button role="tab" id="t4" aria-controls="Week 3">Week 3</button>
       </div>
     </div>
     <div class="served"><i></i>served by nginx</div>
   </aside>
 
   <main>
-    <section class="panel" id="q1" role="tabpanel" aria-labelledby="t1">
-      <h2>1. Linux distribution and version</h2>
-      <div class="distro"><strong>Ubuntu 26.04</strong><span>The operating system this server runs on.</span></div>
-    </section>
+	<section class="panel" id="q1" role="tabpanel" aria-labelledby="t1">
+  	<h2>Welcome</h2>
+  	<p>Welcome to my Linux server project website.</p>
+	<p>This site contains my weekly assignments and server projects.</p>
+	</section>
 
-    <section class="panel" id="q1" role="tabpanel" aria-labelledby="t1">
+    <section class="panel" id="q2" role="tabpanel" aria-labelledby="t2">
 
   <h2>1. Linux distribution and version</h2>
 
@@ -239,8 +240,15 @@
     </li>
   </ol>
 
-</section>
-  </main>
+	<section class="panel" id="q3" role="tabpanel" aria-labelledby="t3">
+
+  <h2>Week 2</h2>
+
+  <p>    Flask and MariaDB project coming soon.</p>
+	</section>
+	</section>
+
+  	</main>
 
   <script>
     var tabs = document.querySelectorAll('[role="tab"]');
