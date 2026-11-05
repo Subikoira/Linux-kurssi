@@ -1,23 +1,292 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Viikko 2 - Python ja MariaDB</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ville's Linux Server — Week 1</title>
+  <script>document.documentElement.className = "js";</script>
+  <style>
+    :root {
+      --aubergine: #2c001e;
+      --aubergine-2: #4a0d36;
+      --orange: #e95420;
+      --orange-soft: #ffd9c9;
+      --paper: #fbf9fa;
+      --card: #ffffff;
+      --ink: #26121f;
+      --muted: #6d5a66;
+      --line: #e6dde2;
+      --code-bg: #1d0a16;
+      --code-text: #f4e9ef;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #170a13;
+        --card: #231019;
+        --ink: #f4e9ef;
+        --muted: #b49aa9;
+        --line: #3b2332;
+        --orange-soft: #5a2412;
+        --code-bg: #0e0409;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    /* Sidebar */
+    aside {
+      position: sticky; top: 0; height: 100vh;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 40px 28px;
+      background: linear-gradient(170deg, var(--aubergine-2), var(--aubergine) 70%);
+      color: #fff;
+    }
+    aside h1 { margin: 0 0 8px; font-size: 2rem; line-height: 1.1; letter-spacing: -0.01em; }
+    aside .sub { margin: 0 0 36px; color: #e8cfdc; }
+    [role="tablist"] { display: flex; flex-direction: column; gap: 6px; }
+    [role="tab"] {
+      text-align: left; font: inherit; color: #f0dde7;
+      background: transparent; border: 0; border-left: 3px solid transparent;
+      padding: 12px 14px; cursor: pointer; border-radius: 0 6px 6px 0;
+    }
+    [role="tab"]:hover { background: rgba(255, 255, 255, 0.08); }
+    [role="tab"][aria-selected="true"] {
+      background: rgba(255, 255, 255, 0.12); color: #fff;
+      border-left-color: var(--orange); font-weight: 600;
+    }
+    [role="tab"]:focus-visible, .copy:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+    .served {
+      display: flex; align-items: center; gap: 10px;
+      font: 0.85rem ui-monospace, Consolas, monospace; color: #e8cfdc;
+    }
+    .served i { width: 9px; height: 9px; border-radius: 50%; background: #3ddc84; }
+
+    /* Content */
+    main { padding: 64px 7vw 80px; max-width: 920px; }
+    .js .panel { display: none; }
+    .js .panel.active { display: block; animation: swap 0.25s ease; }
+    @keyframes swap { from { opacity: 0; transform: translateX(10px); } }
+    @media (prefers-reduced-motion: reduce) { .js .panel.active { animation: none; } }
+    .panel + .panel { margin-top: 64px; }
+    .js .panel + .panel { margin-top: 0; }
+    .panel h2 { margin: 0 0 28px; font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.2; letter-spacing: -0.01em; }
+
+    /* Q1 */
+    .distro {
+      padding: 36px 32px; border-radius: 14px;
+      background: var(--orange); color: #fff;
+    }
+    .distro strong { display: block; font-size: clamp(2.4rem, 7vw, 4.5rem); line-height: 1; letter-spacing: -0.02em; }
+    .distro span { display: block; margin-top: 10px; opacity: 0.9; }
+
+    /* Q2 */
+    .roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+    .role { padding: 16px; border: 1px solid var(--line); background: var(--card); border-radius: 10px; }
+    .role b { display: block; margin-bottom: 4px; color: var(--orange); }
+    .role small { color: var(--muted); font-size: 0.88rem; line-height: 1.4; display: block; }
+    .lead { max-width: 62ch; font-size: 1.1rem; margin: 0; }
+
+    /* Q3 */
+    ol.steps { list-style: none; margin: 0; padding: 0; position: relative; }
+    ol.steps::before {
+      content: ""; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 2px; background: var(--line);
+    }
+    ol.steps li { position: relative; padding: 0 0 22px 52px; counter-increment: step; }
+    ol.steps { counter-reset: step; }
+    ol.steps li::before {
+      content: counter(step); position: absolute; left: 0; top: 0;
+      width: 32px; height: 32px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--orange-soft); color: var(--orange); font-weight: 700; font-size: 0.9rem;
+    }
+    .cmdline {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--code-bg); color: var(--code-text);
+      border-radius: 8px; padding: 10px 12px 10px 16px;
+    }
+    .cmdline code { flex: 1; overflow-x: auto; white-space: nowrap; font: 0.95rem ui-monospace, Consolas, monospace; }
+    .copy {
+      font: 0.8rem inherit; font-family: inherit; color: #fff; cursor: pointer;
+      background: rgba(255, 255, 255, 0.14); border: 0; border-radius: 6px; padding: 5px 10px;
+    }
+    .copy:hover { background: rgba(255, 255, 255, 0.24); }
+    ol.steps p { margin: 8px 0 0; color: var(--muted); max-width: 60ch; }
+
+    @media (max-width: 820px) {
+      body { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; padding: 28px 20px 12px; gap: 20px; }
+      aside .sub { margin-bottom: 16px; }
+      [role="tablist"] { flex-direction: row; overflow-x: auto; gap: 4px; }
+      [role="tab"] { white-space: nowrap; border-left: 0; border-bottom: 3px solid transparent; border-radius: 6px 6px 0 0; }
+      [role="tab"][aria-selected="true"] { border-bottom-color: var(--orange); }
+      .served { display: none; }
+      main { padding: 36px 20px 60px; }
+      .roles { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-<body>
-    <h1>Viikko 2: Python-verkkosovellus ja tietokanta</h1>
+<body> 
+  <aside>
+    <div>
+      <h1>Ville's Linux Server</h1>
+      <p class="sub">Welcome to my Website!</p>
+      <div role="tablist" aria-label="Questions">
+        <button role="tab" id="t1" aria-controls="Home" hidden>Home</button>
+        <button role="tab" id="t2" aria-controls="Week 1">Week 1</button>
+        <a role="tab" href="/viikko2/">Week 2</a>
+	<a role="tab" href="/viikko3/">Week 3</a>
+      </div>
+    </div>
+    <div class="served"><i></i>served by nginx</div>
+  </aside>
 
-    <h2>Käyntimäärä: {{ kaynnit }}</h2>
+  <main>
+	<section class="panel" id="q1" role="tabpanel" aria-labelledby="t1">
+  	<h2>Welcome</h2>
+  	<p>Welcome to my Linux server project website.</p>
+	<p>This site contains my weekly assignments and server projects.</p>
+	</section>
 
-    
+    <section class="panel" id="q2" role="tabpanel" aria-labelledby="t2">
 
-    <p>
-        <a href="https://github.com/VilleKoskela/Linux">
-            Katso lähdekoodi GitHubissa
-        </a>
-    </p>
+  <h2>1. Linux distribution and version</h2>
 
-    <p><a href="/">Takaisin viikon 1 sivulle</a></p>
+  <div class="distro">
+    <strong>Ubuntu 26.04</strong>
+    <span>The operating system this server runs on.</span>
+  </div>
+
+  <h2>2. What is Nginx, and what does it do on this server?</h2>
+
+  <p class="lead">
+    A web server that serves your website to visitors. It also functions as a reverse proxy and load balancer, directing traffic to backend servers and improving both site performance and security.
+  </p>
+
+  <div class="roles">
+    <div class="role">
+      <b>Web server</b>
+      <small>Serves the website to visitors.</small>
+    </div>
+
+    <div class="role">
+      <b>Reverse proxy</b>
+      <small>Directs traffic to backend servers.</small>
+    </div>
+
+    <div class="role">
+      <b>Load balancer</b>
+      <small>Improves site performance and security.</small>
+    </div>
+  </div>
+
+  <h2>3. Which commands did I use?</h2>
+
+  <ol class="steps">
+    <li>
+      <div class="cmdline">
+        <code>sudo apt update</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Updates the package lists on a Linux system.</p>
+    </li>
+
+    <li>
+      <div class="cmdline">
+        <code>sudo apt install nginx</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Installs the Nginx web server on a Linux system.</p>
+    </li>
+
+    <li>
+      <div class="cmdline">
+        <code>y</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Accepts the installation prompt.</p>
+    </li>
+
+    <li>
+      <div class="cmdline">
+        <code>sudo ufw allow 'Nginx Full'</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Configures the firewall to allow HTTP and HTTPS traffic.</p>
+    </li>
+
+    <li>
+      <div class="cmdline">
+        <code>sudo reboot</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Restarts the Linux system immediately.</p>
+    </li>
+
+    <li>
+      <div class="cmdline">
+        <code>sudo nano /var/www/html/index.html</code>
+        <button class="copy">Copy</button>
+      </div>
+      <p>Opens the index.html file in Nano.</p>
+    </li>
+  </ol>
+
+</section>
+
+<section class="panel" id="q3" role="tabpanel" aria-labelledby="t3">
+
+
+  <h2>Week 2</h2>
+
+  	<div class="distro" style="text-align: center;">
+	  <strong>{{ kaynnit }}</strong>
+	  <span>Visits stored in the MariaDB database.</span>
+	</div>
+	</section>
+
+  	</main>
+
+  <script>
+    var tabs = document.querySelectorAll('[role="tab"]');
+    var panels = document.querySelectorAll('.panel');
+    function show(n) {
+      tabs.forEach(function (t, i) {
+        t.setAttribute('aria-selected', i === n);
+        t.tabIndex = i === n ? 0 : -1;
+        panels[i].classList.toggle('active', i === n);
+      });
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { show(i); location.hash = 'q' + (i + 1); });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0;
+        if (d) { var n = (i + d + tabs.length) % tabs.length; show(n); tabs[n].focus(); }
+      });
+    });
+    var start = parseInt((location.hash || '#q3').replace('#q', ''), 10) - 1;
+    show(start >= 0 && start < 3 ? start : 0);
+
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var text = b.parentNode.querySelector('code').textContent;
+        try {
+          navigator.clipboard.writeText(text).then(function () {
+            b.textContent = 'Copied';
+            setTimeout(function () { b.textContent = 'Copy'; }, 1500);
+          });
+        } catch (e) { /* clipboard unavailable */ }
+      });
+    });
+  </script>
 </body>
 </html>
+
