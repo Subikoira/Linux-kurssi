@@ -60,3 +60,7 @@ def viikko2():
     finally:
         if connection is not None:
             connection.close()
+
+@app.route("/viikko3/")
+def viikko3():
+    return render_template("viikko3.html")
