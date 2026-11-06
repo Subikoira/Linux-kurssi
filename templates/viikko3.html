@@ -239,7 +239,7 @@
       <p>Opens the index.html file in Nano.</p>
     </li>
   </ol>
-
+	</section>
 	<section class="panel" id="q3" role="tabpanel" aria-labelledby="t3">
 
   <h2>Week 3</h2>
@@ -249,7 +249,6 @@
 	  <span>Week 3 content will be added later.</span>
 	</div>
 
-	</section>
 	</section>
 
   	</main>
@@ -261,11 +260,15 @@
       tabs.forEach(function (t, i) {
         t.setAttribute('aria-selected', i === n);
         t.tabIndex = i === n ? 0 : -1;
-        panels[i].classList.toggle('active', i === n);
+        if (panels[i]) panels[i].classList.toggle('active', i === n);
       });
-    }
-    tabs.forEach(function (t, i) {
-      t.addEventListener('click', function () { show(i); location.hash = 'q' + (i + 1); });
+    	}
+   	 tabs.forEach(function (t, i) {
+   	   t.addEventListener('click', function () {
+	  if (t.tagName === 'A') return;
+	  show(i);
+	  location.hash = 'q' + (i + 1);
+	});
       t.addEventListener('keydown', function (e) {
         var d = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0;
         if (d) { var n = (i + d + tabs.length) % tabs.length; show(n); tabs[n].focus(); }
@@ -273,6 +276,12 @@
     });
     var start = parseInt((location.hash || '#q3').replace('#q', ''), 10) - 1;
     show(start >= 0 && start < 3 ? start : 0);
+
+	tabs.forEach(function (t) {
+	  t.setAttribute('aria-selected', 'false');
+	});
+	tabs[3].setAttribute('aria-selected', 'true');
+	tabs[3].tabIndex = 0;
 
     document.querySelectorAll('.copy').forEach(function (b) {
       b.addEventListener('click', function () {
