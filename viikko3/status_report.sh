@@ -5,7 +5,7 @@ TEMPLATE="/home/ubuntu/viikko3/viikko3.html"
 OUTPUT_DIR="/var/www/viikko3"
 OUTPUT_FILE="$OUTPUT_DIR/index.html"
 TEMP_FILE="$OUTPUT_DIR/index.html.tmp"
-GITHUB_URL="https://github.com/Subikoira/Linux-kurssi"
+GITHUB_URL="https://github.com/Subikoira/Linux-kurssi/tree/main/viikko3"
 
 get_disk_status() {
     local usage="$1"

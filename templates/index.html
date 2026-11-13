@@ -140,22 +140,19 @@
       <h1>Ville's Linux Server</h1>
       <p class="sub">Welcome to my Website!</p>
       <div role="tablist" aria-label="Questions">
-        <button role="tab" id="t1" aria-controls="Home" hidden>Home</button>
-        <button role="tab" id="t2" aria-controls="Week 1">Week 1</button>
+        <a role="tab" href="/">Week 1</a>
         <a role="tab" href="/viikko2/">Week 2</a>
 	<a role="tab" href="/viikko3/">Week 3</a>
+	<a role="tab" href="/viikko4/">Week 4</a>
+	<a role="tab" href="/viikko5/">Week 5</a>
+	<a role="tab" href="/viikko6/">Week 6</a>
+	<a role="tab" href="/viikko7/">Week 7</a>
       </div>
     </div>
     <div class="served"><i></i>served by nginx</div>
   </aside>
 
   <main>
-	<section class="panel" id="q1" role="tabpanel" aria-labelledby="t1">
-  	<h2>Welcome</h2>
-  	<p>Welcome to my Linux server project website.</p>
-	<p>This site contains my weekly assignments and server projects.</p>
-	</section>
-
     <section class="panel" id="q2" role="tabpanel" aria-labelledby="t2">
 
   <h2>1. Linux distribution and version</h2>
@@ -239,37 +236,16 @@
       <p>Opens the index.html file in Nano.</p>
     </li>
   </ol>
-
-	<section class="panel" id="q3" role="tabpanel" aria-labelledby="t3">
-
-  <h2>Week 2</h2>
-
-  <p>    Flask and MariaDB project coming soon.</p>
-	</section>
-	</section>
+        </section>
 
   	</main>
 
   <script>
-    var tabs = document.querySelectorAll('[role="tab"]');
-    var panels = document.querySelectorAll('.panel');
-    function show(n) {
-      tabs.forEach(function (t, i) {
-        t.setAttribute('aria-selected', i === n);
-        t.tabIndex = i === n ? 0 : -1;
-        panels[i].classList.toggle('active', i === n);
-      });
-    }
-    tabs.forEach(function (t, i) {
-      t.addEventListener('click', function () { show(i); location.hash = 'q' + (i + 1); });
-      t.addEventListener('keydown', function (e) {
-        var d = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0;
-        if (d) { var n = (i + d + tabs.length) % tabs.length; show(n); tabs[n].focus(); }
-      });
+    document.querySelectorAll('[role="tab"]').forEach(function (t) {
+      var valittu = t.getAttribute('href') === location.pathname;
+      t.setAttribute('aria-selected', valittu);
     });
-    var start = parseInt((location.hash || '#q1').replace('#q', ''), 10) - 1;
-    show(start >= 0 && start < 3 ? start : 0);
-
+    document.querySelector('.panel').classList.add('active');
     document.querySelectorAll('.copy').forEach(function (b) {
       b.addEventListener('click', function () {
         var text = b.parentNode.querySelector('code').textContent;
