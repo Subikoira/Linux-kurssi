@@ -1,1 +1,1 @@
-* * * * * /bin/bash "/home/ubuntu/viikko3/luo_etusivu.sh" >> "/home/ubuntu/viikko3/luo_etusivu.log" 2>&1
+* * * * * /bin/bash "/home/ubuntu/viikko3/status_report.sh" >> "/home/ubuntu/viikko3/status_report.log" 2>&1
