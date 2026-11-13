@@ -318,7 +318,7 @@
     <h3>Automatic updates</h3>
     <p>Cron updated the report automatically. Two consecutive generation times were 2026-11-13 11:38:01 UTC and 2026-11-13 11:39:01 UTC, exactly one minute apart. After the script was renamed to <code>status_report.sh</code> and the crontab was updated, the report was still refreshed automatically (for example 12:32:01 UTC).</p>
     <h3>Reboot test</h3>
-    <p>TODO: Record when the VM was rebooted and whether the Week 2 application and the Week 3 page opened afterwards.</p>
+    <p>The virtual machine was rebooted with <code>sudo reboot</code> on 2026-11-13 at 15:34:10 UTC. After logging back in at 15:35:08 UTC, cron, Nginx and the Week 2 service (<code>viikko2.service</code>) were all active, and the Week 2 page responded with HTTP 200. The Week 3 report was generated automatically after the reboot at 15:35:01 UTC and again at 15:37:01 UTC, so the schedule continued without any manual action.</p>
   </section>
 
   <section>
