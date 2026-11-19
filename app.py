@@ -64,3 +64,38 @@ def viikko2():
 @app.route("/viikko3/")
 def viikko3():
     return render_template("viikko3.html")
+
+
+
+
+
+
+
+
+@app.route("/viikko4/")
+def viikko4():
+    connection = None
+
+    try:
+        connection = avaa_tietokantayhteys()
+
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT kaynnit FROM laskuri WHERE id = 1")
+            result = cursor.fetchone()
+
+        return render_template(
+            "viikko4.html",
+            kaynnit=result[0]
+        )
+
+    except Exception as error:
+        app.logger.exception("Tietokantavirhe: %s", error)
+
+        return make_response(
+            "Replikan tietokantayhteys epäonnistui.",
+            500
+        )
+
+    finally:
+        if connection is not None:
+            connection.close()
