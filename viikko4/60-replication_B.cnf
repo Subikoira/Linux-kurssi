@@ -1,0 +1,6 @@
+[mariadb]
+server_id = 2
+relay_log = replica-relay-bin
+read_only = ON
+event_scheduler = OFF
+bind_address = 127.0.0.1
